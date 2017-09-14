@@ -36,5 +36,5 @@ INSERT INTO `cems_edsm_report_type` (`id`, `reportType`, `tableName`, `field`) V
 INSERT INTO `cems_edsm_report_template` (`id`, `templateID`, `reportName`, `description`, `createUid`, `createTime`, `isUse`, `powerID`, `countType`, `sqlStr`, `jsdataColumns`, `templateType`) VALUES ('4f3c8a90bbad40fb820e4c49429f31e3', 'ba62ad97e39143b1a7b97720f5528acc', '文档资产统计类报表', NULL, '802b01b008834d47a32af0468d17b8ce', '2017-08-31 13:48:21', '0', 'f830d755f2824831a6819812e4067d4c,d7480ff1b81340238754db8ce9fc3cfa,75c15b3c0d4f470eab304b7f3c50610e', '1', 'select fileID as \'文档ID\',fileName as \'文档名\',fileSec as \'密级\',fileUrl as \'文档路径\',fileSize as \'文档大小\',createTime as \'创建时间\' from cems_edsm_file_info where ( 1=1 )', '[{\"name\":\"fileID\",\"index\":\"fileGUID\",\"label\":\"文档ID\"},{\"name\":\"fileName\",\"index\":\"fileName\",\"label\":\"文档名\"},{\"name\":\"fileSec\",\"index\":\"fileSec\",\"label\":\"密级\"},{\"name\":\"fileUrl\",\"index\":\"fileUrl\",\"label\":\"文档路径\"},{\"name\":\"fileSize\",\"index\":\"fileSize\",\"label\":\"文档大小\"},{\"name\":\"createTime\",\"index\":\"createTime\",\"label\":\"创建时间\"}]', NULL);
 
  
- -我很喜欢过github
+
   
