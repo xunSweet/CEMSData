@@ -1,0 +1,140 @@
+                             jqGrid怎么设置初始化页面时不加载数据（不向服务器请求数据）
+                             
+    最近做一些表格一直用到jqGrid，今天遇到一个问题：
+1.就是页面加载的时候数据不显示，点击搜索才根据请求从服务器返回并显示内容.
+2.默认不从服务器请求数据（不然在开发者工具下会显示请求不到数据的报错）
+  通常的解决方法就是直接给$("#jqGridTable").jqGrid({})套一个function，但个人感觉这并不是最好的方法。
+  我建议可以用：
+ （1）. 初始化$("#jqGridTable").jqGrid({})的时候设置datatype: 'local'即：
+  $("#grid").jqGrid({
+          url:"http://localhost:8080/xxxx",
+          datatype:"local"
+ });
+（2）.当要加载数据的时候把datatype设置为json或者XML:
+   $("#jqGridTable").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid'); // #1
+   如搜索方法为: function serch(){
+}
+网址：http://blog.csdn.net/web_xyk/article/details/47978539；
+ 	//初始化日志列表grid  JS
+  	$(function() {
+		dataloadOrg();
+		initLogGrid();
+		//2、条件查询
+	    $("#highSearchButton").bind("click",function(){
+	    	if($("#template_log_search_form").Validform()){
+	    		 if (!$(".ui-filter-text").next('.ui-filter-list').is(":hidden")) {
+	 	            $(".ui-filter-text").trigger("click");
+	 	        }
+	 	     	$('#templatePowerLog_gridTable').jqGrid('setGridParam', {
+	 	            postData: serializeObject($("#template_log_search_form")), page: 1,datatype:'json'
+	 	        }).trigger('reloadGrid');    
+	    	}
+	   });
+	   //3、清空查询
+	    $("#btn_Reset").bind("click",function(){
+            $("#template_log_search_form").form('clear');
+	    });
+	});
+	function initLogGrid(){
+		$('#templatePowerLog_gridTable').jqGrid({
+			url : "${basePath}/log/templatePowerLogAction_getTemplatePowerLogJson.do",
+			datatype : "local",
+			mtype: "post",
+			height : $(window).height() - 120,
+			autowidth : true,
+			shrinkToFit : true,
+			viewrecords : true,
+			rowNum : 30,
+			multiselect : true,
+			rowList : [ 30, 50, 100 ],
+			pager : "#templatePowerLog_gridPager",
+			sortname: "operateDate",
+			sortorder: "desc",
+			//rownumbers: true,
+			shrinkToFit : false,
+			emptyrecords : "无数据",
+			gridview : true,
+			colModel : [{
+				index : 'operateUserName',
+				name : "operateUserName",
+				label : '<s:text name="sys.column.name.log.operateUserName"></s:text>',
+				align : 'center',
+				width : getPerWidth(0.10),
+				sortable:false
+			},{
+				index : 'deptName',
+				name : "deptName",
+				label : '<s:text name="sys.column.name.log.deptName"></s:text>',
+				align : 'center',
+				width : getPerWidth(0.10),
+				sortable:false
+			},{
+				index : 'templateName',
+				name : "templateName",
+				label : '<s:text name="sys.column.name.log.templateName"></s:text>',
+				align : 'center',
+				width : getPerWidth(0.08),
+				sortable:false
+			},{
+				index : 'operateTypeName',
+				name : "operateTypeName",
+				label : '<s:text name="sys.column.name.log.operateTypeName"></s:text>',
+				align : 'center',
+				width : getPerWidth(0.08),
+				sortable:false
+			},{
+				index : 'operateDate',
+				name : "operateDate",
+				label : '<s:text name="sys.column.name.log.operateDate"></s:text>',
+				align : 'center',
+				width : getPerWidth(0.12),
+				formatter:"date",
+				formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'},
+				sortable:false
+			},{
+				index : 'operateDetails',
+				name : "operateDetails",
+				label : '<s:text name="sys.column.name.log.operateDetails"></s:text>',
+				align : 'center',
+				width : getPerWidth(0.10),
+				sortable:false
+			},{
+				index : 'MAC',
+				name : "MAC",
+				label : '<s:text name="sys.column.name.log.MAC"></s:text>',
+				align : 'center',
+				width : getPerWidth(0.10),
+				sortable:false
+			},{
+				index : 'IP',
+				name : "IP",
+				label : 'IP',
+				align : 'center',
+				width : getPerWidth(0.10),
+				sortable:false
+			},{
+				index : 'PC',
+				name : "PC",
+				label : '<s:text name="sys.column.name.log.PC"></s:text>',
+				align : 'center',
+				width : getPerWidth(0.10),
+				sortable:false
+			},{
+				index : 'details',
+				name : "details",
+				label : '<s:text name="sys.column.name.log.details"></s:text>',
+				align : 'center',
+				width : getPerWidth(0.10),
+				sortable:false,
+				formatter:function(cellValue,options,rowObject){
+					return "<a onclick='showDetails(this,&quot;"+rowObject.id+"&quot;)' style='color:#0000FF'><s:text name='sys.column.name.log.details'></s:text></a>"
+				}
+			},{
+				name : "id",
+				hidedlg : 'true',
+				hidden : 'true',
+				width : 0
+			}]
+		});
+	}
+                           
